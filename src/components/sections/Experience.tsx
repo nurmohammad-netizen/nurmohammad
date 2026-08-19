@@ -1,8 +1,10 @@
-import { Briefcase } from "lucide-react";
+import { BriefcaseBusiness, ChartNoAxesCombined, Factory, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { experiences } from "@/data/portfolio";
+
+const roleIcons: LucideIcon[] = [ChartNoAxesCombined, Factory, BriefcaseBusiness];
 
 export function Experience() {
   return (
@@ -21,11 +23,16 @@ export function Experience() {
             {experiences.map((exp, i) => (
               <Reveal key={exp.company} delay={i * 0.08} y={16}>
                 <div className="relative pl-12 sm:pl-14">
+                  {(() => {
+                    const Icon = roleIcons[i] ?? BriefcaseBusiness;
+                    return (
                   <span className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border border-accent-500/40 bg-navy-800 text-accent-400 sm:h-10 sm:w-10">
-                    <Briefcase size={16} />
+                    <Icon size={16} />
                   </span>
+                    );
+                  })()}
 
-                  <div className="rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur transition-colors hover:border-accent-500/30 sm:p-8">
+                  <div className="interactive-card rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur sm:p-8">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
                         <h3 className="font-display text-lg font-semibold text-ink-100 sm:text-xl">

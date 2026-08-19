@@ -16,7 +16,7 @@ export function Certifications() {
 
         <div className="grid gap-6 lg:grid-cols-5">
           <Reveal className="lg:col-span-3">
-            <div className="h-full rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur sm:p-8">
+            <div className="interactive-card h-full rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur sm:p-8">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-500/10 text-accent-400">
                   <Award size={18} />
@@ -49,7 +49,7 @@ export function Certifications() {
           </Reveal>
 
           <Reveal delay={0.1} className="lg:col-span-2">
-            <div className="h-full rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur sm:p-8">
+            <div className="interactive-card h-full rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur sm:p-8">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-500/10 text-accent-400">
                   <GraduationCap size={18} />

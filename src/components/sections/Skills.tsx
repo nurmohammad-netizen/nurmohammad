@@ -24,7 +24,7 @@ export function Skills() {
             const Icon = icons[group.title] ?? Layers;
             return (
               <Reveal key={group.title} delay={i * 0.1}>
-                <div className="h-full rounded-2xl border border-navy-700/60 bg-navy-800/40 p-8 backdrop-blur transition-all hover:border-accent-500/30 hover:bg-navy-800/60">
+                <div className="interactive-card h-full rounded-2xl border border-navy-700/60 bg-navy-800/40 p-8 backdrop-blur">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-500/10 text-accent-400">
                     <Icon size={20} />
                   </div>

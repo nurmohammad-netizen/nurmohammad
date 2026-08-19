@@ -25,7 +25,7 @@ export function Growth() {
             const Icon = icons[area.title] ?? Sparkles;
             return (
               <Reveal key={area.title} delay={i * 0.1}>
-                <div className="h-full rounded-2xl border border-dashed border-accent-500/30 bg-navy-800/30 p-8 backdrop-blur">
+                <div className="interactive-card h-full rounded-2xl border border-dashed border-accent-500/30 bg-navy-800/30 p-8 backdrop-blur">
                   <div className="flex items-center justify-between">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-500/10 text-accent-400">
                       <Icon size={20} />

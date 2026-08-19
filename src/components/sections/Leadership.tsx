@@ -11,7 +11,7 @@ export function Leadership() {
         <SectionHeading eyebrow="Leadership & Communication" title="Where the confidence comes from" />
 
         <Reveal>
-          <div className="flex flex-col gap-6 rounded-2xl border border-navy-700/60 bg-navy-800/40 p-8 backdrop-blur sm:flex-row sm:items-start sm:p-10">
+          <div className="interactive-card flex flex-col gap-6 rounded-2xl border border-navy-700/60 bg-navy-800/40 p-8 backdrop-blur sm:flex-row sm:items-start sm:p-10">
             <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-accent-500/10 text-accent-400">
               <Mic size={22} />
             </div>

@@ -39,7 +39,7 @@ export interface GrowthArea {
 }
 
 export interface ContactMethod {
-  type: "email" | "phone" | "linkedin";
+  type: "email" | "phone" | "linkedin" | "facebook";
   label: string;
   value: string;
   href: string;
@@ -54,6 +54,7 @@ export const personal = {
   email: "nur.mohammad.scm@gmail.com",
   phone: "+8801710789744",
   linkedin: "https://www.linkedin.com/in/nur-mohammad88",
+  facebook: "https://www.facebook.com/profile.php?id=61593160953175",
   location: "Dhaka, Bangladesh",
 };
 
@@ -75,6 +76,12 @@ export const contactMethods: ContactMethod[] = [
     label: "LinkedIn",
     value: "linkedin.com/in/nur-mohammad88",
     href: personal.linkedin,
+  },
+  {
+    type: "facebook",
+    label: "Facebook",
+    value: "facebook.com/nur.international",
+    href: personal.facebook,
   },
 ];
 

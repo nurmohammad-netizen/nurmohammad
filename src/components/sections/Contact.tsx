@@ -12,6 +12,14 @@ function LinkedInIcon({ size = 20 }: { size?: number }) {
   );
 }
 
+function FacebookIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.024 1.791-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.973h-1.514c-1.491 0-1.956.931-1.956 1.887v2.261h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073Z" />
+    </svg>
+  );
+}
+
 export function Contact() {
   return (
     <section id="contact" className="relative py-24 sm:py-32">
@@ -24,19 +32,20 @@ export function Contact() {
         />
 
         <Reveal>
-          <div className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-3">
+          <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {contactMethods.map((method) => (
               <a
                 key={method.type}
                 href={method.href}
                 target={method.type === "email" ? undefined : "_blank"}
                 rel={method.type === "email" ? undefined : "noopener noreferrer"}
-                className="group flex flex-col items-center gap-4 rounded-2xl border border-navy-700/60 bg-navy-800/40 p-8 text-center backdrop-blur transition-colors hover:border-accent-500/40 hover:bg-navy-800/60"
+                className="interactive-card group flex flex-col items-center gap-4 rounded-2xl border border-navy-700/60 bg-navy-800/40 p-8 text-center backdrop-blur"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-500/10 text-accent-400">
                   {method.type === "email" && <Mail size={20} />}
                   {method.type === "phone" && <Phone size={20} />}
                   {method.type === "linkedin" && <LinkedInIcon size={20} />}
+                  {method.type === "facebook" && <FacebookIcon size={20} />}
                 </span>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-ink-500">

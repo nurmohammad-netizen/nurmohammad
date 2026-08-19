@@ -12,7 +12,7 @@ export function Entrepreneurship() {
         <SectionHeading eyebrow="Entrepreneurship" title="Building something of his own" />
 
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-accent-500/20 bg-gradient-to-br from-navy-800/80 via-navy-800/40 to-navy-900/80 p-8 backdrop-blur sm:p-12">
+          <div className="interactive-card relative overflow-hidden rounded-3xl border border-accent-500/20 bg-gradient-to-br from-navy-800/80 via-navy-800/40 to-navy-900/80 p-8 backdrop-blur sm:p-12">
             <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent-500/10 blur-[100px]" />
 
             <div className="relative max-w-2xl">
@@ -44,7 +44,7 @@ export function Entrepreneurship() {
                   href={entrepreneurship.facebookUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-navy-950 transition-all hover:bg-accent-400 hover:shadow-lg hover:shadow-accent-500/25"
+                  className="interactive-button group inline-flex items-center gap-2 rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-navy-950"
                 >
                   Visit Our Page
                   <ArrowUpRight

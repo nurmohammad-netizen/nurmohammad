@@ -8,7 +8,10 @@ import { personal, heroStats } from "@/data/portfolio";
 
 export function Hero() {
   return (
-    <section id="home" className="relative flex min-h-screen items-center pb-20 pt-32">
+    <section id="home" className="relative flex min-h-screen items-center overflow-hidden pb-20 pt-32">
+      <div aria-hidden className="pointer-events-none absolute -right-8 top-1/2 -translate-y-1/2 select-none font-display text-[16rem] font-bold leading-none text-ink-100/[0.025] sm:right-4 sm:text-[24rem]">
+        NM
+      </div>
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -55,14 +58,14 @@ export function Hero() {
         >
           <Link
             href="#contact"
-            className="group inline-flex items-center gap-2 rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-navy-950 transition-all hover:bg-accent-400 hover:shadow-lg hover:shadow-accent-500/25"
+            className="interactive-button group inline-flex items-center gap-2 rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-navy-950"
           >
             Get in Touch
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </Link>
           <Link
             href="#experience"
-            className="inline-flex items-center gap-2 rounded-full border border-navy-600 px-6 py-3 text-sm font-semibold text-ink-200 transition-all hover:border-accent-500/50 hover:text-accent-400"
+            className="interactive-button inline-flex items-center gap-2 rounded-full border border-navy-600 px-6 py-3 text-sm font-semibold text-ink-200"
           >
             View Experience
           </Link>
