@@ -6,6 +6,7 @@ import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
 import { Skills } from "@/components/sections/Skills";
 import { Certifications } from "@/components/sections/Certifications";
+import { Projects } from "@/components/sections/Projects";
 import { Entrepreneurship } from "@/components/sections/Entrepreneurship";
 import { Growth } from "@/components/sections/Growth";
 import { Leadership } from "@/components/sections/Leadership";
@@ -22,6 +23,7 @@ export default function Home() {
         <Experience />
         <Skills />
         <Certifications />
+        <Projects />
         <Entrepreneurship />
         <Growth />
         <Leadership />
