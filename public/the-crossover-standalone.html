@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Crossover</title>
+<meta name="description" content="A dashboard on the 2025 global electricity milestone: renewables overtook coal for the first time, charted from Ember and IEA data.">
+<style>
+  /* ---------- Fonts ---------- */
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  /* ---------- Tokens ---------- */
+  :root{
+    color-scheme: light;
+    --bg: #f1f2ea;
+    --surface: #fbfbf7;
+    --surface-2: #e8e9df;
+    --ink: #171712;
+    --ink-2: #54534a;
+    --muted: #8b897d;
+    --hairline: #dcdbcf;
+    --hairline-strong: #c7c6b8;
+    --accent: #a8560c;
+    --accent-ink: #a8560c;
+    --accent-soft: rgba(168,86,12,0.10);
+    --good: #0f7a2e;
+
+    --c-solar:   #eda100;
+    --c-wind:    #2a78d6;
+    --c-hydro:   #1baf7a;
+    --c-nuclear: #4a3aa7;
+    --c-bio:     #008300;
+    --c-coal:    #726d61;
+    --c-gas:     #aca583;
+    --c-other:   #c7c6ba;
+
+    --shadow: 0 1px 2px rgba(23,23,18,0.04), 0 8px 24px -12px rgba(23,23,18,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --bg: #0f100b;
+      --surface: #191a12;
+      --surface-2: #22231a;
+      --ink: #f6f5ec;
+      --ink-2: #c7c5b3;
+      --muted: #928f7e;
+      --hairline: #33342a;
+      --hairline-strong: #43443790;
+      --accent: #e6a147;
+      --accent-ink: #f0b268;
+      --accent-soft: rgba(230,161,71,0.14);
+      --good: #4ec97a;
+
+      --c-solar:   #c98500;
+      --c-wind:    #3987e5;
+      --c-hydro:   #199e70;
+      --c-nuclear: #9085e9;
+      --c-bio:     #2fae2f;
+      --c-coal:    #a29c8b;
+      --c-gas:     #6f6a55;
+      --c-other:   #4a4b3e;
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg: #0f100b;
+    --surface: #191a12;
+    --surface-2: #22231a;
+    --ink: #f6f5ec;
+    --ink-2: #c7c5b3;
+    --muted: #928f7e;
+    --hairline: #33342a;
+    --hairline-strong: #43443790;
+    --accent: #e6a147;
+    --accent-ink: #f0b268;
+    --accent-soft: rgba(230,161,71,0.14);
+    --good: #4ec97a;
+
+    --c-solar:   #c98500;
+    --c-wind:    #3987e5;
+    --c-hydro:   #199e70;
+    --c-nuclear: #9085e9;
+    --c-bio:     #2fae2f;
+    --c-coal:    #a29c8b;
+    --c-gas:     #6f6a55;
+    --c-other:   #4a4b3e;
+
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust: 100%; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--accent-soft); }
+
+  a{ color: var(--accent-ink); }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .display{
+    font-family: 'Big Shoulders Display', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .num{
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+  .num-tab{ font-variant-numeric: tabular-nums; }
+
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(20px, 4vw, 48px) clamp(16px, 4vw, 32px) 64px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+  .masthead .eyebrow{
+    display:block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 8px;
+  }
+  .masthead h1{
+    margin: 0;
+    font-size: clamp(38px, 6vw, 64px);
+    line-height: 0.92;
+    color: var(--ink);
+  }
+  .masthead .sub{
+    margin: 10px 0 0;
+    max-width: 46ch;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .masthead .meta{
+    text-align: right;
+    flex-shrink: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .masthead .meta strong{ color: var(--ink-2); font-weight: 500; }
+
+  /* ---------- Panels ---------- */
+  .panel{
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: clamp(18px, 3vw, 28px);
+  }
+  .panel-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .panel-title{
+    font-family: 'Big Shoulders Display', system-ui, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 20px;
+    margin: 0;
+    color: var(--ink);
+  }
+  .panel-note{
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--muted);
+    max-width: 30ch;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .panel-foot{
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* ---------- Hero scoreboard ---------- */
+  .hero{ margin-bottom: 20px; }
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: clamp(14px, 4vw, 40px);
+  }
+  .score{ text-align: center; }
+  .score.is-lead .score-value{ color: var(--c-solar); }
+  .score.is-coal .score-value{ color: var(--ink-2); }
+  .score-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 6px;
+  }
+  .score-value{
+    font-size: clamp(52px, 9vw, 96px);
+    line-height: 1;
+    font-weight: 600;
+    margin: 0;
+  }
+  .score-value sup{
+    font-size: 0.36em;
+    top: -0.5em;
+  }
+  .score-sub{
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .vs{
+    font-family: 'Big Shoulders Display', system-ui, sans-serif;
+    font-size: 20px;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .vs .bolt{ font-size: 26px; color: var(--accent-ink); }
+  .hero-strip{
+    margin-top: 26px;
+    display: flex;
+    height: 14px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+  }
+  .hero-strip span{ display:block; height: 100%; }
+  .hero-caption{
+    margin: 20px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 74ch;
+  }
+  .hero-caption b{ color: var(--ink); font-weight: 600; }
+
+  /* ---------- KPI row ---------- */
+  .kpis{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .kpi{
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .kpi-label{
+    margin: 0 0 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.35;
+    min-height: 32px;
+  }
+  .kpi-value{
+    font-size: clamp(26px, 3.4vw, 34px);
+    font-weight: 600;
+    margin: 0;
+    color: var(--ink);
+  }
+  .kpi-delta{
+    margin: 6px 0 0;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .kpi-delta.up{ color: var(--good); }
+
+  /* ---------- Bento grid ---------- */
+  .bento{
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .bento.row2{ grid-template-columns: 1fr 1fr; align-items: start; }
+  .footer-row{
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 14px;
+  }
+
+  /* ---------- Legend ---------- */
+  .legend{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 14px;
+    list-style: none;
+    padding: 0;
+  }
+  .legend li{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .legend .swatch{
+    width: 10px; height: 10px; border-radius: 2.5px; flex-shrink: 0;
+  }
+  .legend .lv{
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ---------- Charts ---------- */
+  .chart-svg{ width: 100%; height: auto; display: block; overflow: visible; }
+  .chart-svg text{ font-family: 'IBM Plex Mono', monospace; fill: var(--muted); font-size: 10.5px; }
+  .chart-svg .val-label{ fill: var(--ink-2); font-size: 11px; }
+  .mark{ cursor: pointer; transition: opacity .15s ease, transform .15s ease; }
+  .mark:hover, .mark:focus-visible{ opacity: 0.82; }
+  .mark:focus-visible{ outline: none; }
+
+  .country-row{ cursor: pointer; }
+  .country-row:hover .country-bar, .country-row:focus-visible .country-bar{ opacity: 0.82; }
+
+  /* Tooltip */
+  #tooltip{
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 12.5px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    line-height: 1.45;
+    max-width: 240px;
+    box-shadow: 0 8px 20px -6px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 10px));
+    transition: opacity .1s ease;
+  }
+  #tooltip.show{ opacity: 1; }
+  #tooltip .tt-key{ display:flex; align-items:center; gap:6px; }
+  #tooltip .tt-line{ width: 12px; height: 2px; border-radius: 1px; flex-shrink:0; }
+  #tooltip .tt-val{ font-family:'IBM Plex Mono', monospace; font-weight: 600; }
+  #tooltip .tt-name{ opacity: 0.75; }
+
+  /* Table fallback */
+  details.tv{ margin-top: 12px; }
+  details.tv summary{
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+  details.tv summary:hover{ color: var(--ink-2); }
+  details.tv table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12.5px;
+  }
+  details.tv th, details.tv td{
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--hairline);
+    font-variant-numeric: tabular-nums;
+  }
+  details.tv th{ color: var(--muted); font-weight: 500; }
+
+  /* ---------- Milestones ---------- */
+  .milestones{ list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .milestones li{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .milestones li:last-child{ border-bottom: none; padding-bottom: 0; }
+  .milestones .tag{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--surface);
+    background: var(--ink-2);
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .milestones p{ margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+  .milestones b{ color: var(--ink); font-weight: 600; }
+
+  /* ---------- Battery tile ---------- */
+  .battery-figs{ display:flex; gap: 22px; margin-bottom: 16px; flex-wrap: wrap; }
+  .battery-fig .kpi-value{ font-size: 30px; }
+  .battery-fig .kpi-label{ min-height: 0; margin-bottom: 6px; }
+  .battery-copy{ font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+  .battery-copy b{ color: var(--ink); font-weight: 600; }
+
+  /* ---------- Sources ---------- */
+  .sources{
+    margin-top: 30px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline-strong);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+  .sources a{ color: var(--muted); text-decoration-color: var(--hairline-strong); }
+  .sources a:hover{ color: var(--ink-2); }
+
+  /* ---------- Load-in motion ---------- */
+  .fade-up{
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp .6s ease forwards;
+  }
+  @keyframes fadeUp{ to{ opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce){
+    .fade-up{ animation: none; opacity: 1; transform: none; }
+    .mark, .country-row .country-bar{ transition: none; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .bento, .bento.row2, .footer-row{ grid-template-columns: 1fr; }
+    .kpis{ grid-template-columns: repeat(2, 1fr); }
+    .masthead{ flex-direction: column; align-items: flex-start; }
+    .masthead .meta{ text-align: left; }
+    .hero-grid{ grid-template-columns: 1fr; }
+    .vs{ flex-direction: row; }
+  }
+  @media (max-width: 480px){
+    .kpis{ grid-template-columns: 1fr 1fr; }
+    .battery-figs{ gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <span class="eyebrow">Global electricity &middot; full-year 2025</span>
+      <h1 class="display">The&nbsp;Crossover</h1>
+      <p class="sub">The year the world drew more power from the sun and the wind than from coal &mdash; for the first time since coal-fired generation began.</p>
+    </div>
+    <div class="meta">
+      <div>Data vintage: <strong>2025 full year</strong></div>
+      <div>Published: <strong>early 2026</strong></div>
+      <div>Source: <strong>Ember &middot; IEA</strong></div>
+    </div>
+  </header>
+
+  <section class="panel hero fade-up" aria-labelledby="hero-title">
+    <h2 id="hero-title" class="panel-title">2025 generation mix, head to head</h2>
+    <div class="hero-grid">
+      <div class="score is-lead">
+        <p class="score-label">Renewables</p>
+        <p class="score-value num">33.8<sup>%</sup></p>
+        <p class="score-sub">10,730 TWh generated</p>
+      </div>
+      <div class="vs"><span class="bolt">&#9889;</span>vs</div>
+      <div class="score is-coal">
+        <p class="score-label">Coal</p>
+        <p class="score-value num">33.0<sup>%</sup></p>
+        <p class="score-sub">10,476 TWh generated</p>
+      </div>
+    </div>
+    <div class="hero-strip" role="img" aria-label="Renewables at 33.8 percent narrowly ahead of coal at 33.0 percent of global electricity generation in 2025, with gas, nuclear and other sources making up the remaining 33.2 percent">
+      <span style="width:33.8%; background:var(--c-solar);"></span>
+      <span style="width:33.0%; background:var(--ink-2);"></span>
+      <span style="width:33.2%; background:var(--hairline-strong);"></span>
+    </div>
+    <ul class="legend" style="margin-top:10px;">
+      <li><span class="swatch" style="background:var(--c-solar)"></span>Renewables <span class="lv num-tab">33.8%</span></li>
+      <li><span class="swatch" style="background:var(--ink-2)"></span>Coal <span class="lv num-tab">33.0%</span></li>
+      <li><span class="swatch" style="background:var(--hairline-strong)"></span>Gas, nuclear &amp; other <span class="lv num-tab">33.2%</span></li>
+    </ul>
+    <p class="hero-caption">It's a gap of just <b>254 TWh</b> &mdash; less than half a percentage point &mdash; but the direction is what matters: coal generation <b>fell</b> for only the fifth time this century, while solar and wind alone met <b>99% of the world's new electricity demand</b>. Renewables supplied <b>18.7%</b> of global electricity in 2000. In 2025, for the first time, they supplied more than coal.</p>
+  </section>
+
+  <section class="kpis" aria-label="Key figures, 2025">
+    <div class="kpi fade-up">
+      <p class="kpi-label">Solar generation</p>
+      <p class="kpi-value num-tab">2,778 <span style="font-size:0.5em; color:var(--muted);">TWh</span></p>
+      <p class="kpi-delta up">&#9650; 30% YoY &middot; record +636 TWh</p>
+    </div>
+    <div class="kpi fade-up">
+      <p class="kpi-label">Of new electricity demand met by solar + wind alone</p>
+      <p class="kpi-value num-tab">99<span style="font-size:0.5em;">%</span></p>
+      <p class="kpi-delta">Solar alone met 75% of it</p>
+    </div>
+    <div class="kpi fade-up">
+      <p class="kpi-label">Solar + wind capacity added</p>
+      <p class="kpi-value num-tab">814 <span style="font-size:0.5em; color:var(--muted);">GW</span></p>
+      <p class="kpi-delta up">&#9650; 17% vs 696 GW in 2024</p>
+    </div>
+    <div class="kpi fade-up">
+      <p class="kpi-label">Battery storage deployed</p>
+      <p class="kpi-value num-tab">&#8776;250 <span style="font-size:0.5em; color:var(--muted);">GWh</span></p>
+      <p class="kpi-delta up">&#9650; 46% YoY &middot; costs &#9660; 45%</p>
+    </div>
+  </section>
+
+  <div class="bento">
+    <section class="panel fade-up" aria-labelledby="solar-title">
+      <div class="panel-head">
+        <h2 id="solar-title" class="panel-title">Solar's rise</h2>
+        <p class="panel-note">Share of global electricity generation, selected years</p>
+      </div>
+      <svg id="solarChart" class="chart-svg" viewBox="0 0 640 260" role="img" aria-label="Solar's share of global electricity rose from 0.01 percent in 2000 to 3 percent in 2020 to 8.76 percent in 2025"></svg>
+      <p class="panel-foot">Solar has roughly doubled every three years since 2022 &mdash; the fastest sustained growth of any energy technology on record.</p>
+      <details class="tv">
+        <summary>View as table</summary>
+        <table>
+          <thead><tr><th>Year</th><th>Solar share of global electricity</th></tr></thead>
+          <tbody id="solarTable"></tbody>
+        </table>
+      </details>
+    </section>
+
+    <section class="panel fade-up" aria-labelledby="mix-title">
+      <div class="panel-head">
+        <h2 id="mix-title" class="panel-title">Full mix</h2>
+        <p class="panel-note">2025 generation by source</p>
+      </div>
+      <svg id="mixChart" class="chart-svg" viewBox="0 0 220 220" role="img" aria-label="2025 global electricity generation mix by source"></svg>
+      <ul class="legend" id="mixLegend"></ul>
+      <details class="tv">
+        <summary>View as table</summary>
+        <table>
+          <thead><tr><th>Source</th><th>Share</th></tr></thead>
+          <tbody id="mixTable"></tbody>
+        </table>
+      </details>
+      <p class="panel-foot">*Wind + hydro + solar + bioenergy, 33.5% here. Ember's own headline renewables total for 2025 (33.8%, used above) draws on slightly finer-grained source data than this public breakdown.</p>
+    </section>
+  </div>
+
+  <div class="bento row2">
+    <section class="panel fade-up" aria-labelledby="cap-title">
+      <div class="panel-head">
+        <h2 id="cap-title" class="panel-title">Capacity added</h2>
+        <p class="panel-note">New solar + wind capacity, GW</p>
+      </div>
+      <svg id="capChart" class="chart-svg" viewBox="0 0 260 240" role="img" aria-label="814 gigawatts of solar and wind capacity added in 2025, up from 696 gigawatts in 2024; the 2025 total splits into 647 gigawatts of solar and 167 gigawatts of wind"></svg>
+      <ul class="legend" id="capLegend"></ul>
+      <details class="tv">
+        <summary>View as table</summary>
+        <table>
+          <thead><tr><th>Year</th><th>Solar</th><th>Wind</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>2024</td><td>&mdash;</td><td>&mdash;</td><td class="num-tab">696 GW</td></tr>
+            <tr><td>2025</td><td class="num-tab">647 GW</td><td class="num-tab">167 GW</td><td class="num-tab">814 GW</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <p class="panel-foot">2024's split by technology wasn't separately reported &mdash; shown here as one bar.</p>
+    </section>
+
+    <section class="panel fade-up" aria-labelledby="country-title">
+      <div class="panel-head">
+        <h2 id="country-title" class="panel-title">Who's built the most</h2>
+        <p class="panel-note">Operating wind + solar capacity, end of 2025</p>
+      </div>
+      <svg id="countryChart" class="chart-svg" viewBox="0 0 460 168" role="img" aria-label="Operating wind and solar capacity at end of 2025: China 1600 gigawatts, United States 368 gigawatts, India 163 gigawatts"></svg>
+      <details class="tv">
+        <summary>View as table</summary>
+        <table>
+          <thead><tr><th>Country</th><th>Operating capacity</th></tr></thead>
+          <tbody id="countryTable"></tbody>
+        </table>
+      </details>
+      <p class="panel-foot">China's operating fleet is roughly triple the next two countries combined.</p>
+    </section>
+  </div>
+
+  <div class="footer-row">
+    <section class="panel fade-up" aria-labelledby="battery-title">
+      <div class="panel-head">
+        <h2 id="battery-title" class="panel-title">Storage catches up</h2>
+      </div>
+      <div class="battery-figs">
+        <div class="battery-fig">
+          <p class="kpi-label">Cost, YoY</p>
+          <p class="kpi-value num-tab" style="color:var(--good)">&#9660;45<span style="font-size:0.6em;">%</span></p>
+        </div>
+        <div class="battery-fig">
+          <p class="kpi-label">Deployment, YoY</p>
+          <p class="kpi-value num-tab" style="color:var(--good)">&#9650;46<span style="font-size:0.6em;">%</span></p>
+        </div>
+      </div>
+      <p class="battery-copy">Battery costs fell <b>45%</b> in 2025, on top of a 20% drop in 2024. Deployment grew to roughly <b>250 GWh</b> &mdash; enough to shift <b>14%</b> of new solar generation into hours after the sun goes down.</p>
+    </section>
+
+    <section class="panel fade-up" aria-labelledby="milestones-title">
+      <div class="panel-head">
+        <h2 id="milestones-title" class="panel-title">On the ground</h2>
+      </div>
+      <ul class="milestones">
+        <li>
+          <span class="tag">CHINA</span>
+          <p>Fossil generation fell <b>56 TWh (&minus;0.9%)</b> &mdash; its first annual decline since 2015 &mdash; as solar and wind reached <b>22%</b> of the country's generation mix.</p>
+        </li>
+        <li>
+          <span class="tag">INDIA</span>
+          <p>Fossil generation fell <b>52 TWh (&minus;3.3%)</b>, its first decline this century. India also installed more new solar capacity than the United States for the first time.</p>
+        </li>
+        <li>
+          <span class="tag">WORLD</span>
+          <p>Coal's share has been sliding since it peaked at <b>41%</b> in 2013. 2025 was only the fifth year this century that fossil generation failed to grow.</p>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <footer class="sources">
+    Sources: Ember, <a href="https://ember-energy.org/latest-insights/global-electricity-review-2026/" target="_blank" rel="noopener">Global Electricity Review 2026</a> &middot; Ember, <a href="https://ember-energy.org/latest-updates/world-adds-a-record-breaking-814-gw-of-solar-and-wind-in-2025/" target="_blank" rel="noopener">World adds a record-breaking 814 GW of solar and wind in 2025</a> &middot; Pew Research Center, <a href="https://www.pewresearch.org/short-reads/2026/07/20/how-global-energy-production-is-changing-in-6-charts/" target="_blank" rel="noopener">How global energy production is changing, in 6 charts</a> &middot; Global Energy Monitor, <a href="https://globalenergymonitor.org/report/global-wind-and-solar-2025-the-g7-gap/" target="_blank" rel="noopener">Global wind and solar 2025: The G7 gap</a>.
+  </footer>
+
+</div>
+
+<div id="tooltip" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var tooltip = document.getElementById('tooltip');
+
+  function el(tag, attrs){
+    var node = document.createElementNS(SVGNS, tag);
+    for (var k in attrs){ node.setAttribute(k, attrs[k]); }
+    return node;
+  }
+
+  function showTooltip(evt, rows){
+    tooltip.innerHTML = "";
+    rows.forEach(function(r){
+      var line = document.createElement('div');
+      line.className = 'tt-key';
+      if (r.color){
+        var key = document.createElement('span');
+        key.className = 'tt-line';
+        key.style.background = r.color;
+        line.appendChild(key);
+      }
+      var name = document.createElement('span');
+      name.className = 'tt-name';
+      name.textContent = r.name + ': ';
+      var val = document.createElement('span');
+      val.className = 'tt-val';
+      val.textContent = r.value;
+      line.appendChild(name);
+      line.appendChild(val);
+      tooltip.appendChild(line);
+    });
+    positionTooltip(evt);
+    tooltip.classList.add('show');
+  }
+  function positionTooltip(evt){
+    var x = evt.clientX, y = evt.clientY;
+    if (evt.target && evt.target.getBoundingClientRect && evt.type === 'focus'){
+      var r = evt.target.getBoundingClientRect();
+      x = r.left + r.width/2; y = r.top;
+    }
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+  function hideTooltip(){ tooltip.classList.remove('show'); }
+
+  function attachTip(node, rows){
+    node.addEventListener('pointermove', function(e){ showTooltip(e, rows); });
+    node.addEventListener('pointerenter', function(e){ showTooltip(e, rows); });
+    node.addEventListener('pointerleave', hideTooltip);
+    node.addEventListener('focus', function(e){ showTooltip(e, rows); });
+    node.addEventListener('blur', hideTooltip);
+    node.setAttribute('tabindex', '0');
+    node.setAttribute('class', (node.getAttribute('class') || '') + ' mark');
+  }
+
+  var fmtPct = function(v){ return v.toFixed(v < 1 ? 2 : (v % 1 === 0 ? 0 : 1)) + '%'; };
+
+  /* ================= Solar line/area chart ================= */
+  (function(){
+    var data = [
+      { year: 2000, value: 0.01 },
+      { year: 2020, value: 3 },
+      { year: 2025, value: 8.76 }
+    ];
+    var svg = document.getElementById('solarChart');
+    var W = 640, H = 260;
+    var padL = 34, padR = 20, padT = 18, padB = 34;
+    var x0 = 1998, x1 = 2027;
+    var y0 = 0, y1 = 10;
+
+    function xPos(year){ return padL + (year - x0) / (x1 - x0) * (W - padL - padR); }
+    function yPos(val){ return H - padB - (val - y0) / (y1 - y0) * (H - padT - padB); }
+
+    var ticksY = [0, 2, 4, 6, 8, 10];
+    ticksY.forEach(function(t){
+      var y = yPos(t);
+      svg.appendChild(el('line', { x1: padL, x2: W - padR, y1: y, y2: y, style: 'stroke:var(--hairline)', 'stroke-width': 1 }));
+      var lbl = el('text', { x: padL - 8, y: y + 3, 'text-anchor': 'end' });
+      lbl.textContent = t + '%';
+      svg.appendChild(lbl);
+    });
+    svg.appendChild(el('line', { x1: padL, x2: padL, y1: padT, y2: H - padB, style: 'stroke:var(--hairline-strong)', 'stroke-width': 1 }));
+    svg.appendChild(el('line', { x1: padL, x2: W - padR, y1: H - padB, y2: H - padB, style: 'stroke:var(--hairline-strong)', 'stroke-width': 1 }));
+
+    var areaD = 'M ' + xPos(data[0].year) + ' ' + yPos(y0);
+    data.forEach(function(d){ areaD += ' L ' + xPos(d.year) + ' ' + yPos(d.value); });
+    areaD += ' L ' + xPos(data[data.length-1].year) + ' ' + yPos(y0) + ' Z';
+    var area = el('path', { d: areaD });
+    area.style.fill = 'var(--c-solar)';
+    area.style.opacity = '0.12';
+    svg.appendChild(area);
+
+    var lineD = data.map(function(d, i){ return (i === 0 ? 'M ' : 'L ') + xPos(d.year) + ' ' + yPos(d.value); }).join(' ');
+    var line = el('path', { d: lineD, fill: 'none', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+    line.style.stroke = 'var(--c-solar)';
+    svg.appendChild(line);
+
+    var tableBody = document.getElementById('solarTable');
+    data.forEach(function(d, i){
+      var cx = xPos(d.year), cy = yPos(d.value);
+      var hit = el('circle', { cx: cx, cy: cy, r: 14, fill: 'transparent' });
+      attachTip(hit, [{ name: d.year, value: fmtPct(d.value), color: 'var(--c-solar)' }]);
+      svg.appendChild(hit);
+
+      var ring = el('circle', { cx: cx, cy: cy, r: 6 });
+      ring.style.fill = 'var(--c-solar)';
+      ring.style.stroke = 'var(--surface)';
+      ring.setAttribute('stroke-width', '2');
+      svg.appendChild(ring);
+
+      var anchor = i === 0 ? 'start' : (i === data.length - 1 ? 'end' : 'middle');
+      var lx = i === 0 ? cx + 8 : (i === data.length - 1 ? cx - 8 : cx);
+      var label = el('text', { x: lx, y: cy - 14, 'text-anchor': anchor });
+      label.setAttribute('class', 'val-label');
+      label.textContent = d.year + '  ' + fmtPct(d.value);
+      svg.appendChild(label);
+
+      var xlbl = el('text', { x: cx, y: H - padB + 16, 'text-anchor': 'middle' });
+      xlbl.textContent = d.year;
+      svg.appendChild(xlbl);
+
+      var row = document.createElement('tr');
+      row.innerHTML = '<td>' + d.year + '</td><td class="num-tab">' + fmtPct(d.value) + '</td>';
+      tableBody.appendChild(row);
+    });
+  })();
+
+  /* ================= Generation mix donut ================= */
+  (function(){
+    var data = [
+      { name: 'Coal',       value: 33.06, color: 'var(--c-coal)' },
+      { name: 'Gas',        value: 21.73, color: 'var(--c-gas)' },
+      { name: 'Wind',       value: 8.55,  color: 'var(--c-wind)' },
+      { name: 'Hydro',      value: 13.97, color: 'var(--c-hydro)' },
+      { name: 'Solar',      value: 8.76,  color: 'var(--c-solar)' },
+      { name: 'Nuclear',    value: 8.85,  color: 'var(--c-nuclear)' },
+      { name: 'Bioenergy',  value: 2.22,  color: 'var(--c-bio)' },
+      { name: 'Other',      value: 2.86,  color: 'var(--c-other)' }
+    ];
+    var svg = document.getElementById('mixChart');
+    var cx = 110, cy = 110, rOuter = 92, rInner = 56;
+    var mixFmt = function(v){ return v.toFixed(v < 10 ? 2 : 1) + '%'; };
+
+    function polar(cx, cy, r, angleDeg){
+      var a = (angleDeg - 90) * Math.PI / 180;
+      return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+    }
+    function slicePath(startAngle, endAngle){
+      var large = (endAngle - startAngle) > 180 ? 1 : 0;
+      var so = polar(cx, cy, rOuter, endAngle);
+      var eo = polar(cx, cy, rOuter, startAngle);
+      var si = polar(cx, cy, rInner, endAngle);
+      var ei = polar(cx, cy, rInner, startAngle);
+      return ['M', so.x, so.y,
+              'A', rOuter, rOuter, 0, large, 0, eo.x, eo.y,
+              'L', ei.x, ei.y,
+              'A', rInner, rInner, 0, large, 1, si.x, si.y,
+              'Z'].join(' ');
+    }
+
+    var angle = 0;
+    var legend = document.getElementById('mixLegend');
+    var tableBody = document.getElementById('mixTable');
+    data.forEach(function(d){
+      var sweep = d.value / 100 * 360;
+      var path = el('path', { d: slicePath(angle, angle + sweep) });
+      path.style.fill = d.color;
+      path.style.stroke = 'var(--surface)';
+      path.setAttribute('stroke-width', '2');
+      path.style.transformOrigin = cx + 'px ' + cy + 'px';
+      path.addEventListener('pointerenter', function(){ path.style.transform = 'scale(1.035)'; });
+      path.addEventListener('pointerleave', function(){ path.style.transform = 'scale(1)'; });
+      attachTip(path, [{ name: d.name, value: mixFmt(d.value), color: d.color }]);
+      svg.appendChild(path);
+      angle += sweep;
+
+      var li = document.createElement('li');
+      var sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = d.color;
+      var text = document.createElement('span');
+      text.textContent = d.name + ' ';
+      var lv = document.createElement('span');
+      lv.className = 'lv num-tab';
+      lv.textContent = mixFmt(d.value);
+      li.appendChild(sw); li.appendChild(text); li.appendChild(lv);
+      legend.appendChild(li);
+
+      var row = document.createElement('tr');
+      row.innerHTML = '<td>' + d.name + '</td><td class="num-tab">' + mixFmt(d.value) + '</td>';
+      tableBody.appendChild(row);
+    });
+
+    var renewSum = data.filter(function(d){
+      return d.name === 'Wind' || d.name === 'Hydro' || d.name === 'Solar' || d.name === 'Bioenergy';
+    }).reduce(function(sum, d){ return sum + d.value; }, 0);
+
+    var centerLabel = el('text', { x: cx, y: cy - 4, 'text-anchor': 'middle' });
+    centerLabel.setAttribute('class', 'val-label');
+    centerLabel.style.fontSize = '11px';
+    centerLabel.textContent = 'Renewables*';
+    var centerValue = el('text', { x: cx, y: cy + 16, 'text-anchor': 'middle' });
+    centerValue.style.fontSize = '17px';
+    centerValue.style.fill = 'var(--ink)';
+    centerValue.style.fontFamily = "'IBM Plex Mono', monospace";
+    centerValue.style.fontWeight = '600';
+    centerValue.textContent = renewSum.toFixed(1) + '%';
+    svg.appendChild(centerLabel);
+    svg.appendChild(centerValue);
+  })();
+
+  /* ================= Capacity added: stacked comparison ================= */
+  (function(){
+    var svg = document.getElementById('capChart');
+    var W = 260, H = 240;
+    var baseline = H - 30;
+    var maxVal = 900;
+    var scale = (baseline - 20) / maxVal;
+    var barW = 64;
+    var gap = 2;
+
+    function h(v){ return v * scale; }
+
+    /* 2024: single unsplit bar */
+    var x2024 = 46;
+    var v2024 = 696;
+    var top2024 = baseline - h(v2024);
+    var bar2024 = el('rect', { x: x2024, y: top2024, width: barW, height: h(v2024), rx: 4, ry: 4 });
+    bar2024.style.fill = 'var(--ink-2)';
+    bar2024.style.opacity = '0.55';
+    attachTip(bar2024, [{ name: '2024 total', value: '696 GW', color: 'var(--ink-2)' }]);
+    svg.appendChild(bar2024);
+    var lbl2024 = el('text', { x: x2024 + barW/2, y: top2024 - 10, 'text-anchor': 'middle' });
+    lbl2024.setAttribute('class', 'val-label');
+    lbl2024.textContent = '696 GW';
+    svg.appendChild(lbl2024);
+    var cat2024 = el('text', { x: x2024 + barW/2, y: baseline + 18, 'text-anchor': 'middle' });
+    cat2024.textContent = '2024';
+    svg.appendChild(cat2024);
+
+    /* 2025: stacked solar (bottom) + wind (top) */
+    var x2025 = 150;
+    var vSolar = 647, vWind = 167;
+    var solarH = h(vSolar), windH = h(vWind);
+    var solarTop = baseline - solarH;
+    var windTop = solarTop - gap - windH;
+
+    var solarBar = el('rect', { x: x2025, y: solarTop, width: barW, height: solarH, rx: 0, ry: 0 });
+    solarBar.style.fill = 'var(--c-solar)';
+    attachTip(solarBar, [{ name: 'Solar, 2025', value: '647 GW', color: 'var(--c-solar)' }]);
+    svg.appendChild(solarBar);
+
+    var windBar = el('rect', { x: x2025, y: windTop, width: barW, height: windH, rx: 4, ry: 4 });
+    windBar.style.fill = 'var(--c-wind)';
+    attachTip(windBar, [{ name: 'Wind, 2025', value: '167 GW', color: 'var(--c-wind)' }]);
+    svg.appendChild(windBar);
+    /* square off the bottom corners of the rounded wind rect so it reads flush against the gap */
+    var mask = el('rect', { x: x2025, y: windTop + windH - 4, width: barW, height: 4 });
+    mask.style.fill = 'var(--c-wind)';
+    svg.appendChild(mask);
+
+    var lbl2025 = el('text', { x: x2025 + barW/2, y: windTop - 10, 'text-anchor': 'middle' });
+    lbl2025.setAttribute('class', 'val-label');
+    lbl2025.textContent = '814 GW';
+    svg.appendChild(lbl2025);
+    var cat2025 = el('text', { x: x2025 + barW/2, y: baseline + 18, 'text-anchor': 'middle' });
+    cat2025.textContent = '2025';
+    svg.appendChild(cat2025);
+
+    svg.appendChild(el('line', { x1: 20, x2: W - 20, y1: baseline, y2: baseline, style: 'stroke:var(--hairline-strong)', 'stroke-width': 1 }));
+
+    var legend = document.getElementById('capLegend');
+    [['2024 (unsplit)', 'var(--ink-2)'], ['Solar', 'var(--c-solar)'], ['Wind', 'var(--c-wind)']].forEach(function(pair){
+      var li = document.createElement('li');
+      var sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = pair[1];
+      var text = document.createElement('span');
+      text.textContent = pair[0];
+      li.appendChild(sw); li.appendChild(text);
+      legend.appendChild(li);
+    });
+  })();
+
+  /* ================= Country ranking bars ================= */
+  (function(){
+    var data = [
+      { name: 'China', value: 1600, note: '≈1.6 TW combined' },
+      { name: 'United States', value: 368 },
+      { name: 'India', value: 163 }
+    ];
+    var svg = document.getElementById('countryChart');
+    var W = 460, H = 168;
+    var labelW = 108, valueW = 70;
+    var trackW = W - labelW - valueW;
+    var rowH = 44;
+    var barH = 22;
+    var max = 1600;
+
+    var tableBody = document.getElementById('countryTable');
+    data.forEach(function(d, i){
+      var y = 10 + i * rowH;
+      var w = Math.max((d.value / max) * trackW, 6);
+
+      var g = el('g', {});
+      g.setAttribute('class', 'country-row');
+      g.setAttribute('tabindex', '0');
+
+      var name = el('text', { x: 0, y: y + barH/2 + 4, 'text-anchor': 'start' });
+      name.style.fill = 'var(--ink-2)';
+      name.style.fontSize = '12.5px';
+      name.textContent = d.name;
+      g.appendChild(name);
+
+      var track = el('rect', { x: labelW, y: y, width: trackW, height: barH, rx: 4, ry: 4 });
+      track.style.fill = 'var(--surface-2)';
+      g.appendChild(track);
+
+      var bar = el('rect', { x: labelW, y: y, width: w, height: barH, rx: 4, ry: 4 });
+      bar.setAttribute('class', 'country-bar');
+      bar.style.fill = 'var(--accent-ink)';
+      g.appendChild(bar);
+
+      var val = el('text', { x: labelW + trackW + 10, y: y + barH/2 + 4, 'text-anchor': 'start' });
+      val.setAttribute('class', 'val-label');
+      val.textContent = (d.value >= 1000 ? (d.value/1000) + ' TW' : d.value + ' GW');
+      g.appendChild(val);
+
+      attachTip(g, [{ name: d.name, value: (d.value >= 1000 ? (d.value/1000) + ' TW' : d.value + ' GW'), color: 'var(--accent-ink)' }]);
+      svg.appendChild(g);
+
+      var row = document.createElement('tr');
+      row.innerHTML = '<td>' + d.name + '</td><td class="num-tab">' + (d.value >= 1000 ? (d.value/1000) + ' TW' : d.value + ' GW') + '</td>';
+      tableBody.appendChild(row);
+    });
+  })();
+
+  /* ---- reveal on scroll ---- */
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var targets = document.querySelectorAll('.fade-up');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry, i){
+        if (entry.isIntersecting){
+          entry.target.style.animationDelay = (i % 6) * 0.05 + 's';
+          io.unobserve(entry.target);
+        } else {
+          entry.target.style.opacity = entry.target.style.opacity || '';
+        }
+      });
+    }, { threshold: 0.1 });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>
