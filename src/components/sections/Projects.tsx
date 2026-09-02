@@ -1,8 +1,17 @@
-import { ExternalLink, LayoutDashboard } from "lucide-react";
+import { BarChart3, ExternalLink } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { Badge } from "@/components/ui/Badge";
+
+const projects = [
+  {
+    title: "The Crossover - Global Energy Dashboard",
+    description:
+      "An interactive data dashboard on the 2025 milestone where global renewables overtook coal for the first time - researched from Ember and IEA data, designed and built with AI-assisted tools.",
+    tags: ["Data Visualization", "AI-Assisted", "Dashboard Design"],
+    href: "https://me.nurintl.com/the-crossover-standalone.html",
+  },
+];
 
 export function Projects() {
   return (
@@ -10,51 +19,36 @@ export function Projects() {
       <Container>
         <SectionHeading
           eyebrow="Projects"
-          title="Practical tools, built to make information clearer"
-          description="A small selection of hands-on work that shows how operational thinking translates into useful digital products."
+          title="Applied AI and data work"
+          description="Turning raw data into a clear story - hands-on projects using AI tools for analysis and design."
         />
-
-        <Reveal>
-          <article className="interactive-card rounded-3xl border border-navy-700/60 bg-navy-800/40 p-8 backdrop-blur sm:p-10">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-500/10 text-accent-400">
-                  <LayoutDashboard size={22} />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-accent-400">
-                    Dashboard Project
-                  </p>
-                  <h3 className="mt-2 font-display text-2xl font-bold text-ink-100 sm:text-3xl">
-                    The Crossover
+        <div className="grid gap-6 lg:grid-cols-2">
+          {projects.map((project) => (
+            <Reveal key={project.title}>
+              <a href={project.href} target="_blank" rel="noopener noreferrer" className="interactive-card group flex h-full flex-col rounded-2xl border border-navy-700/60 bg-navy-800/40 p-6 backdrop-blur sm:p-8">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-500/10 text-accent-400">
+                    <BarChart3 size={18} />
+                  </div>
+                  <h3 className="font-display text-lg font-semibold text-ink-100">
+                    {project.title}
                   </h3>
                 </div>
-              </div>
-              <div className="flex flex-wrap gap-2 sm:justify-end">
-                <Badge tone="neutral">Dashboard</Badge>
-                <Badge tone="neutral">Data Visualization</Badge>
-              </div>
-            </div>
-
-            <p className="mt-6 max-w-3xl text-base leading-relaxed text-ink-300 sm:text-lg">
-              An interactive dashboard visualizing the global shift between renewable energy and
-              coal, built to turn complex energy data into a clear, at-a-glance comparison.
-            </p>
-
-            <div className="mt-7 flex flex-wrap items-center gap-5 text-sm text-ink-500">
-              <span>Global renewable energy vs coal usage and growth trends</span>
-              <a
-                href="/the-crossover.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="interactive-button inline-flex items-center gap-2 rounded-full border border-accent-500/50 px-5 py-2.5 font-semibold text-accent-400"
-              >
-                View Dashboard
-                <ExternalLink size={15} />
+                <p className="mt-4 text-sm text-ink-400">{project.description}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="rounded-full border border-navy-600/60 px-3 py-1 text-xs font-medium text-ink-400">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-accent-400 group-hover:underline">
+                  View live dashboard <ExternalLink size={14} />
+                </span>
               </a>
-            </div>
-          </article>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
       </Container>
     </section>
   );
