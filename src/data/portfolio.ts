@@ -50,7 +50,7 @@ export const personal = {
   title: "Sales Operations & SCM Specialist",
   subtitle: "Entrepreneur",
   tagline:
-    "Ten years turning complex order-to-cash operations into measurable results, and a builder at heart, launching new ventures and learning to code with AI.",
+    "Ten years turning complex order-to-cash operations into measurable results, bringing the same operational discipline from managing supply chains to building his own venture and learning to code with AI.",
   email: "nur.mohammad.scm@gmail.com",
   phone: "+8801710789744",
   linkedin: "https://www.linkedin.com/in/nur-mohammad88",
@@ -209,6 +209,7 @@ export const entrepreneurship = {
   status: "Currently Building",
   description:
     "An e-commerce venture built from the ground up (own domain, own brand), applying the same supply-chain and operations discipline from the corporate world to a business of his own.",
+  workNote: "A side venture built and run alongside full-time corporate work",
   tags: ["E-Commerce", "Own Brand", "Founder-Led"],
   facebookUrl: "https://www.facebook.com/profile.php?id=61593160953175",
   websiteNote: "Dedicated website launching soon",

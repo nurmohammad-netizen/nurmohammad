@@ -30,6 +30,7 @@ export function Entrepreneurship() {
               <p className="mt-5 text-base leading-relaxed text-ink-300 sm:text-lg">
                 {entrepreneurship.description}
               </p>
+              <p className="mt-3 text-sm text-ink-500">{entrepreneurship.workNote}</p>
 
               <div className="mt-6 flex flex-wrap gap-2">
                 {entrepreneurship.tags.map((tag) => (
