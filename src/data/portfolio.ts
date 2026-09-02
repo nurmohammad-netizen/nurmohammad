@@ -88,6 +88,7 @@ export const contactMethods: ContactMethod[] = [
 export const navLinks: NavLink[] = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Credentials", href: "#certifications" },
   { label: "Ventures", href: "#ventures" },
@@ -211,6 +212,15 @@ export const entrepreneurship = {
   tags: ["E-Commerce", "Own Brand", "Founder-Led"],
   facebookUrl: "https://www.facebook.com/profile.php?id=61593160953175",
   websiteNote: "Dedicated website launching soon",
+};
+
+export const showcaseProject = {
+  name: "cafe.nurintl.com",
+  category: "Business Website Showcase",
+  description:
+    "A sample of the kind of business website I can build, restaurants, cafes, small businesses, and similar.",
+  stack: ["Next.js", "Tailwind CSS"],
+  liveUrl: "https://cafe.nurintl.com",
 };
 
 export const growthAreas: GrowthArea[] = [

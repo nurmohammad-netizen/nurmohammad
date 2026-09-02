@@ -4,6 +4,7 @@ import { BackgroundFX } from "@/components/ui/BackgroundFX";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
+import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
 import { Certifications } from "@/components/sections/Certifications";
 import { Entrepreneurship } from "@/components/sections/Entrepreneurship";
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <About />
         <Experience />
+        <Projects />
         <Skills />
         <Certifications />
         <Entrepreneurship />

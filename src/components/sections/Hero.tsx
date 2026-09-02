@@ -2,11 +2,40 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, Share2 } from "lucide-react";
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { personal, heroStats } from "@/data/portfolio";
 
 export function Hero() {
+  const [shareStatus, setShareStatus] = useState("");
+
+  async function handleShare() {
+    const shareData = {
+      title: "Nur Mohammad | Sales Operations & SCM Specialist",
+      text: "Explore Nur Mohammad's portfolio.",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareData.url);
+      setShareStatus("Link copied!");
+      window.setTimeout(() => setShareStatus(""), 2500);
+    } catch {
+      setShareStatus("Unable to copy link");
+      window.setTimeout(() => setShareStatus(""), 2500);
+    }
+  }
+
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden pb-20 pt-32">
       <div aria-hidden className="pointer-events-none absolute -right-8 top-1/2 -translate-y-1/2 select-none font-display text-[16rem] font-bold leading-none text-ink-100/[0.025] sm:right-4 sm:text-[24rem]">
@@ -69,6 +98,15 @@ export function Hero() {
           >
             View Experience
           </Link>
+          <button
+            type="button"
+            onClick={handleShare}
+            className="interactive-button inline-flex items-center gap-2 rounded-full border border-navy-600 px-5 py-3 text-sm font-semibold text-ink-300"
+            aria-label="Share this portfolio"
+          >
+            <Share2 size={16} />
+            {shareStatus || "Share"}
+          </button>
         </motion.div>
 
         <motion.div
