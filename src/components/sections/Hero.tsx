@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Share2 } from "lucide-react";
+import { ArrowRight, Download, MapPin, MessageCircle, Share2 } from "lucide-react";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CountUp } from "@/components/ui/CountUp";
 import { personal, heroStats } from "@/data/portfolio";
 
 export function Hero() {
@@ -98,6 +99,24 @@ export function Hero() {
           >
             View Experience
           </Link>
+          <a
+            href="/Nur_Mohammad_CV.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="interactive-button inline-flex items-center gap-2 rounded-full border border-accent-500/60 bg-navy-800/60 px-6 py-3 text-sm font-semibold text-accent-300"
+          >
+            <Download size={16} />
+            Download CV
+          </a>
+          <a
+            href="https://wa.me/8801710789744"
+            target="_blank"
+            rel="noreferrer"
+            className="interactive-button inline-flex items-center gap-2 rounded-full border border-accent-500/60 bg-navy-800/60 px-6 py-3 text-sm font-semibold text-accent-300"
+          >
+            <MessageCircle size={16} />
+            Contact via WhatsApp
+          </a>
           <button
             type="button"
             onClick={handleShare}
@@ -127,9 +146,11 @@ export function Hero() {
           {heroStats.map((stat) => (
             <div key={stat.label}>
               <p className="font-display text-2xl font-bold text-ink-100 sm:text-3xl">
-                {stat.value}
+                <CountUp value={stat.value} />
               </p>
-              <p className="mt-1 text-xs text-ink-500 sm:text-sm">{stat.label}</p>
+              <p className="mt-1 text-xs text-ink-500 sm:text-sm">
+                <CountUp value={stat.label} />
+              </p>
             </div>
           ))}
         </motion.div>

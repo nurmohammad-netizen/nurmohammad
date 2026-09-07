@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { CountUp } from "@/components/ui/CountUp";
 import { aboutParagraphs, atAGlance } from "@/data/portfolio";
 
 export function About() {
@@ -43,8 +44,12 @@ export function About() {
               <ul className="mt-6 space-y-6">
                 {atAGlance.map((item) => (
                   <li key={item.label}>
-                    <p className="font-medium text-ink-100">{item.value}</p>
-                    <p className="mt-0.5 text-sm text-ink-400">{item.label}</p>
+                    <p className="font-medium text-ink-100">
+                      <CountUp value={item.value} />
+                    </p>
+                    <p className="mt-0.5 text-sm text-ink-400">
+                      <CountUp value={item.label} />
+                    </p>
                   </li>
                 ))}
               </ul>

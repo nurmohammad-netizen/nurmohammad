@@ -111,6 +111,7 @@ export const atAGlance: Achievement[] = [
 
 export const aboutParagraphs: string[] = [
   "Nur Mohammad's career sits at the intersection of discipline and curiosity. Over a decade in sales operations and supply chain management, he's built a reputation for turning operational chaos into systems that run on time, every time. That means reconciling ledgers, coordinating dozens of dealers, and moving thousands of SKUs, day after day, without letting anything slip.",
+  "Ten years of hands-on order-to-cash, inventory, and logistics experience now shapes how he approaches building digital tools, so the workflow and data logic in his projects come from real operational practice, not just theory.",
   "That same instinct for building shows up outside the corporate ladder too. As founder of Nur International, he's applying the same operational rigor he brings to A-One Polymer to a business of his own, handling sourcing, branding, and shipping under one roof, built from the ground up.",
   "He treats learning the way he treats a supply chain: never static. A background in Entomology and Zoology gave him an early habit of close observation and systems thinking, and he now points that same habit at Power BI dashboards, digital marketing, and most recently, AI-assisted web development. This site is the newest proof of that habit in action.",
 ];
