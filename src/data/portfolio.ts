@@ -154,7 +154,7 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       "SAP SD",
       "Microsoft Dynamics 365",
-      "Tally Prime",
+      "Tally Prime Gold",
       "Order-to-Cash (O2C)",
       "Depot & Inventory Management",
       "FIFO / FEFO Compliance",
@@ -170,6 +170,7 @@ export const skillGroups: SkillGroup[] = [
       "Advanced MS Excel",
       "XLOOKUP & Pivot Tables",
       "Reporting Automation",
+      "Ledger Reconciliation",
       "Party Ledger Reconciliation",
     ],
   },
