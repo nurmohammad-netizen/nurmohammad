@@ -1,9 +1,9 @@
-import { Rocket, ArrowUpRight, Clock, UtensilsCrossed } from "lucide-react";
+import { Rocket, ArrowUpRight, Clock, UtensilsCrossed, Pill } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Badge } from "@/components/ui/Badge";
-import { entrepreneurship, showcaseProject } from "@/data/portfolio";
+import { entrepreneurship, showcaseProject, nurPharmaProject } from "@/data/portfolio";
 
 export function Entrepreneurship() {
   return (
@@ -106,6 +106,56 @@ export function Entrepreneurship() {
               </a>
               <a href="#contact" className="text-sm font-medium text-ink-400 transition-colors hover:text-accent-400">
                 Interested in a similar site for your business? Let&apos;s talk
+              </a>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="interactive-card mt-6 rounded-3xl border border-navy-700/60 bg-navy-800/40 p-8 backdrop-blur sm:p-10">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-500/10 text-accent-400">
+                  <Pill size={22} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-accent-400">
+                    {nurPharmaProject.category}
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl font-bold text-ink-100">
+                    {nurPharmaProject.name}
+                  </h3>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 sm:justify-end">
+                {nurPharmaProject.stack.map((technology) => (
+                  <Badge key={technology} tone="neutral">
+                    {technology}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <p className="mt-6 max-w-3xl text-base leading-relaxed text-ink-300 sm:text-lg">
+              {nurPharmaProject.description}
+            </p>
+            <p className="mt-3 text-sm text-ink-500">{nurPharmaProject.areaNote}</p>
+
+            <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <a
+                href={nurPharmaProject.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="interactive-button group inline-flex items-center gap-2 rounded-full border border-accent-500/50 px-5 py-2.5 text-sm font-semibold text-accent-400"
+              >
+                View Live Site
+                <ArrowUpRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </a>
+              <a href="#contact" className="text-sm font-medium text-ink-400 transition-colors hover:text-accent-400">
+                Building and running real local-service businesses like this.
               </a>
             </div>
           </div>

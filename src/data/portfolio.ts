@@ -226,6 +226,16 @@ export const showcaseProject = {
   liveUrl: "https://cafe.nurintl.com",
 };
 
+export const nurPharmaProject = {
+  name: "Nur Pharma",
+  category: "Live Business",
+  description:
+    "A real medicine delivery platform I built and run for the Rayerbag and Kodomtoli area in Dhaka, featuring online medicine ordering, WhatsApp-based support, prescription upload for Rx items, and cash-on-delivery.",
+  stack: ["Next.js", "Claude Code", "WhatsApp Support"],
+  liveUrl: "https://pharma.nurintl.com",
+  areaNote: "Currently serving the local Rayerbag and Kodomtoli area in Dhaka.",
+};
+
 export const growthAreas: GrowthArea[] = [
   {
     title: "Digital Marketing",
